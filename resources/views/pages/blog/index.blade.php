@@ -1,197 +1,173 @@
 @extends('layouts.app')
 
-@section('title', 'Blog & News')
+@section('title', __('blog.blog_title'))
 
 @section('content')
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
-    <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto text-center">
-            <h1 class="text-4xl font-bold mb-4">Blog & Industry News</h1>
-            <p class="text-xl text-blue-100">Insights, tutorials, and updates from our team of software experts</p>
-        </div>
-    </div>
-</section>
-
-<!-- Featured Posts -->
-@if(isset($featuredPosts) && $featuredPosts->count() > 0)
-<section class="py-16">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-            <!-- Main Featured Post -->
-            <div class="lg:col-span-3">
-                <a href="{{ route('blog.show', $featuredPosts[0]->slug) }}" class="block group">
-                    <div class="rounded-lg overflow-hidden shadow-lg h-full">
-                        <div class="relative h-96">
-                            @if($featuredPosts[0]->featured_image)
-                                <img src="{{ asset('storage/' . $featuredPosts[0]->featured_image) }}" alt="{{ $featuredPosts[0]->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            @else
-                                <div class="w-full h-full bg-blue-600 flex items-center justify-center">
-                                    <i class="fas fa-newspaper text-white text-6xl"></i>
-                                </div>
-                            @endif
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                                <div class="p-8">
-                                    <span class="bg-blue-600 text-white text-xs font-medium px-2.5 py-1 rounded uppercase tracking-wider">Featured</span>
-                                    <h2 class="text-2xl font-bold text-white mt-3">{{ $featuredPosts[0]->title }}</h2>
-                                    <p class="text-gray-200 mt-2 line-clamp-2">{{ $featuredPosts[0]->excerpt }}</p>
-                                    <div class="flex items-center mt-4">
-                                        <span class="text-gray-200 text-sm">
-                                            <i class="fas fa-calendar-alt mr-2"></i>
-                                            {{ $featuredPosts[0]->published_at->format('M d, Y') }}
-                                        </span>
-                                        <span class="text-gray-200 text-sm ml-4">
-                                            <i class="fas fa-user mr-2"></i>
-                                            {{ $featuredPosts[0]->user->name }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+    <!-- Blog Header Section -->
+    <section class="bg-blue-600 py-16 text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl font-bold mb-4">{{ __('blog.blog_title') }}</h1>
+                <p class="text-xl text-blue-100">{{ __('blog.blog_subtitle') }}</p>
             </div>
-            
-            <!-- Secondary Featured Posts -->
-            <div class="lg:col-span-2 grid grid-cols-1 gap-6">
-                @for($i = 1; $i < min(3, $featuredPosts->count()); $i++)
-                    <a href="{{ route('blog.show', $featuredPosts[$i]->slug) }}" class="block group">
-                        <div class="rounded-lg overflow-hidden shadow-md h-full">
-                            <div class="flex flex-col md:flex-row h-full">
-                                <div class="md:w-2/5 relative">
-                                    @if($featuredPosts[$i]->featured_image)
-                                        <img src="{{ asset('storage/' . $featuredPosts[$i]->featured_image) }}" alt="{{ $featuredPosts[$i]->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                                    @else
-                                        <div class="w-full h-full bg-blue-500 flex items-center justify-center aspect-video md:aspect-auto">
-                                            <i class="fas fa-newspaper text-white text-3xl"></i>
+        </div>
+    </section>
+    
+    <!-- Main Blog Content Section -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap -mx-4">
+                <!-- Blog Posts Column -->
+                <div class="w-full lg:w-2/3 px-4">
+                    <!-- Featured Posts -->
+                    @if(isset($featuredPosts) && $featuredPosts->count() > 0 && !isset($category))
+                        <div class="mb-12">
+                            <h2 class="text-2xl font-bold mb-6">{{ __('blog.popular_posts') }}</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                @foreach($featuredPosts as $post)
+                                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                                        <div class="h-48 bg-gray-200 relative">
+                                            @if($post->featured_image)
+                                                <img src="{{ asset($post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
+                                            @else
+                                                <div class="w-full h-full flex items-center justify-center text-gray-500">
+                                                    <i class="fas fa-image text-4xl"></i>
+                                                </div>
+                                            @endif
+                                            @if($post->category)
+                                                <span class="absolute top-2 right-2 bg-blue-600 text-white text-xs uppercase py-1 px-2 rounded">
+                                                    {{ $post->category->name }}
+                                                </span>
+                                            @endif
                                         </div>
-                                    @endif
-                                </div>
-                                <div class="md:w-3/5 p-5 bg-white flex flex-col justify-center">
-                                    <span class="text-xs text-blue-600 font-semibold mb-1">
-                                        {{ $featuredPosts[$i]->category ?? 'Technology' }}
-                                    </span>
-                                    <h3 class="font-bold text-lg mb-2 group-hover:text-blue-600 transition-colors">{{ $featuredPosts[$i]->title }}</h3>
-                                    <p class="text-gray-600 text-sm line-clamp-2">{{ $featuredPosts[$i]->excerpt }}</p>
-                                    <span class="text-gray-500 text-xs mt-2">
-                                        {{ $featuredPosts[$i]->published_at->format('M d, Y') }}
-                                    </span>
-                                </div>
+                                        <div class="p-4">
+                                            <h3 class="text-lg font-semibold mb-2">
+                                                <a href="{{ route('blog.show', $post->slug) }}" class="text-gray-800 hover:text-blue-600">
+                                                    {{ $post->title }}
+                                                </a>
+                                            </h3>
+                                            <div class="flex items-center text-sm text-gray-500 mb-3">
+                                                <span class="mr-4">{{ \Carbon\Carbon::parse($post->published_at)->format('M d, Y') }}</span>
+                                                <span>{{ $post->read_time ?? 5 }} {{ __('blog.minutes') }}</span>
+                                            </div>
+                                            <p class="text-gray-600 mb-4 line-clamp-3">{{ $post->excerpt }}</p>
+                                            <a href="{{ route('blog.show', $post->slug) }}" class="text-blue-600 font-medium hover:text-blue-800">
+                                                {{ __('general.read_more') }} →
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                    </a>
-                @endfor
+                    @endif
+                    
+                    <!-- Regular Posts -->
+                    <div>
+                        @if(isset($category))
+                            <h2 class="text-2xl font-bold mb-6">{{ $category->name }}</h2>
+                        @else
+                            <h2 class="text-2xl font-bold mb-6">{{ __('blog.recent_posts') }}</h2>
+                        @endif
+                        
+                        @if($posts->count() > 0)
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                @foreach($posts as $post)
+                                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                                        <div class="h-48 bg-gray-200 relative">
+                                            @if($post->featured_image)
+                                                <img src="{{ asset($post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
+                                            @else
+                                                <div class="w-full h-full flex items-center justify-center text-gray-500">
+                                                    <i class="fas fa-image text-4xl"></i>
+                                                </div>
+                                            @endif
+                                            @if($post->category)
+                                                <span class="absolute top-2 right-2 bg-blue-600 text-white text-xs uppercase py-1 px-2 rounded">
+                                                    {{ $post->category->name }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="p-4">
+                                            <h3 class="text-lg font-semibold mb-2">
+                                                <a href="{{ route('blog.show', $post->slug) }}" class="text-gray-800 hover:text-blue-600">
+                                                    {{ $post->title }}
+                                                </a>
+                                            </h3>
+                                            <div class="flex items-center text-sm text-gray-500 mb-3">
+                                                <span class="mr-4">{{ \Carbon\Carbon::parse($post->published_at)->format('M d, Y') }}</span>
+                                                <span>{{ $post->read_time ?? 5 }} {{ __('blog.minutes') }}</span>
+                                            </div>
+                                            <p class="text-gray-600 mb-4 line-clamp-3">{{ $post->excerpt }}</p>
+                                            <a href="{{ route('blog.show', $post->slug) }}" class="text-blue-600 font-medium hover:text-blue-800">
+                                                {{ __('general.read_more') }} →
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            
+                            <!-- Pagination -->
+                            <div class="mt-8">
+                                {{ $posts->links() }}
+                            </div>
+                        @else
+                            <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                                <p class="text-gray-600">{{ __('blog.no_posts_found') }}</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                
+                <!-- Sidebar Column -->
+                <div class="w-full lg:w-1/3 px-4 mt-12 lg:mt-0">
+                    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                        <h3 class="text-xl font-bold mb-4">{{ __('blog.categories') }}</h3>
+                        <ul class="space-y-2">
+                            @foreach($categories as $cat)
+                                <li>
+                                    <a href="{{ route('blog.category', $cat->slug) }}" 
+                                       class="flex items-center justify-between py-2 px-3 rounded-md hover:bg-gray-100 {{ isset($category) && $category->id === $cat->id ? 'bg-blue-100 text-blue-600 font-medium' : 'text-gray-700' }}">
+                                        <span>{{ $cat->name }}</span>
+                                        <span class="bg-gray-200 text-gray-700 text-xs rounded-full px-2 py-1">{{ $cat->posts_count }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    
+                    <!-- Recent Posts Widget -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-4">{{ __('blog.recent_posts') }}</h3>
+                        @if(isset($recentPosts))
+                            <ul class="space-y-4">
+                                @foreach($recentPosts as $recentPost)
+                                    <li class="flex items-start">
+                                        <div class="flex-shrink-0 w-16 h-16 bg-gray-200 rounded-md overflow-hidden mr-4">
+                                            @if($recentPost->featured_image)
+                                                <img src="{{ asset($recentPost->featured_image) }}" alt="{{ $recentPost->title }}" class="w-full h-full object-cover">
+                                            @else
+                                                <div class="w-full h-full flex items-center justify-center text-gray-500">
+                                                    <i class="fas fa-image"></i>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium">
+                                                <a href="{{ route('blog.show', $recentPost->slug) }}" class="text-gray-800 hover:text-blue-600">
+                                                    {{ $recentPost->title }}
+                                                </a>
+                                            </h4>
+                                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($recentPost->published_at)->format('M d, Y') }}</span>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="text-gray-600">{{ __('blog.no_posts_found') }}</p>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-@endif
-
-<!-- Blog Categories -->
-<section class="py-10 bg-gray-50">
-    <div class="container mx-auto px-4">
-        <div class="flex flex-wrap justify-center items-center gap-4">
-            <a href="{{ route('blog.index') }}" class="px-4 py-2 {{ request()->routeIs('blog.index') && !request('category') ? 'bg-blue-600 text-white' : 'bg-white border border-gray-300 text-gray-700' }} rounded-md hover:bg-blue-600 hover:text-white transition-colors">All Posts</a>
-            
-            @foreach($categories as $category)
-                <a href="{{ route('blog.category', $category->slug) }}" class="px-4 py-2 {{ request('category') == $category->slug ? 'bg-blue-600 text-white' : 'bg-white border border-gray-300 text-gray-700' }} rounded-md hover:bg-blue-600 hover:text-white transition-colors">
-                    {{ $category->name }}
-                </a>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-<!-- Blog Posts -->
-<section class="py-12">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @forelse($posts as $post)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg flex flex-col h-full">
-                    <a href="{{ route('blog.show', $post->slug) }}" class="block overflow-hidden">
-                        <div class="h-48 bg-gray-200 relative overflow-hidden">
-                            @if($post->featured_image)
-                                <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                            @else
-                                <div class="flex items-center justify-center h-full bg-blue-600 text-white">
-                                    <i class="fas fa-newspaper text-5xl"></i>
-                                </div>
-                            @endif
-                        </div>
-                    </a>
-                    
-                    <div class="p-6 flex-grow flex flex-col">
-                        <div class="flex items-center text-gray-500 text-sm mb-3">
-                            <span>
-                                <i class="far fa-calendar mr-1"></i>
-                                {{ $post->published_at->format('M d, Y') }}
-                            </span>
-                            <span class="mx-2">•</span>
-                            <span>
-                                <i class="far fa-clock mr-1"></i>
-                                {{ ceil(str_word_count(strip_tags($post->content)) / 200) }} min read
-                            </span>
-                        </div>
-                        
-                        <a href="{{ route('blog.show', $post->slug) }}" class="block group">
-                            <h3 class="text-xl font-bold mb-3 group-hover:text-blue-600 transition-colors">{{ $post->title }}</h3>
-                        </a>
-                        
-                        <p class="text-gray-600 mb-6 line-clamp-3 flex-grow">{{ $post->excerpt }}</p>
-                        
-                        <div class="flex items-center justify-between mt-auto">
-                            <a href="{{ route('blog.show', $post->slug) }}" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
-                                Read More
-                                <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                            </a>
-                            
-                            <div class="flex items-center text-gray-500 text-sm">
-                                <span>
-                                    <i class="far fa-comment mr-1"></i>
-                                    {{ $post->comments_count ?? 0 }}
-                                </span>
-                                <span class="ml-3">
-                                    <i class="far fa-eye mr-1"></i>
-                                    {{ $post->views ?? 0 }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @empty
-                <div class="col-span-3 text-center py-20">
-                    <div class="text-5xl text-gray-300 mb-4">
-                        <i class="fas fa-newspaper"></i>
-                    </div>
-                    <h3 class="text-xl font-medium text-gray-600 mb-1">No Posts Found</h3>
-                    <p class="text-gray-500">Check back later for new content or try a different category.</p>
-                </div>
-            @endforelse
-        </div>
-        
-        <!-- Pagination -->
-        <div class="mt-12">
-            {{ $posts->links() }}
-        </div>
-    </div>
-</section>
-
-<!-- Newsletter Signup -->
-<section class="py-16 bg-blue-700 text-white">
-    <div class="container mx-auto px-4">
-        <div class="max-w-3xl mx-auto text-center">
-            <h3 class="text-2xl font-bold mb-4">Subscribe to Our Newsletter</h3>
-            <p class="text-blue-100 mb-6">Stay updated with the latest insights, tutorials, and news from our team</p>
-            
-            <form class="flex flex-col md:flex-row gap-3">
-                <input type="email" placeholder="Your email address" class="flex-grow px-4 py-3 rounded-md focus:outline-none text-gray-800">
-                <button type="submit" class="bg-white text-blue-700 px-6 py-3 rounded-md font-semibold hover:bg-blue-50 transition-colors">
-                    Subscribe
-                </button>
-            </form>
-            
-            <p class="text-sm text-blue-200 mt-4">We respect your privacy. Unsubscribe at any time.</p>
-        </div>
-    </div>
-</section>
+    </section>
 @endsection

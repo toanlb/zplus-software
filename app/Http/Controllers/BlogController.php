@@ -35,7 +35,13 @@ class BlogController extends Controller
             ->orderBy('name')
             ->get();
         
-        return view('pages.blog.index', compact('posts', 'featuredPosts', 'categories'));
+        // Get recent posts for sidebar
+        $recentPosts = Post::where('status', 'published')
+            ->orderBy('published_at', 'desc')
+            ->take(5)
+            ->get();
+        
+        return view('pages.blog.index', compact('posts', 'featuredPosts', 'categories', 'recentPosts'));
     }
     
     /**
@@ -82,7 +88,13 @@ class BlogController extends Controller
             ->orderBy('name')
             ->get();
         
-        return view('pages.blog.index', compact('posts', 'featuredPosts', 'categories', 'category'));
+        // Get recent posts for sidebar
+        $recentPosts = Post::where('status', 'published')
+            ->orderBy('published_at', 'desc')
+            ->take(5)
+            ->get();
+        
+        return view('pages.blog.index', compact('posts', 'featuredPosts', 'categories', 'category', 'recentPosts'));
     }
     
     /**
@@ -122,6 +134,54 @@ class BlogController extends Controller
             $relatedPosts = $relatedPosts->concat($additionalPosts);
         }
         
-        return view('pages.blog.show', compact('post', 'relatedPosts'));
+        // Get categories for sidebar
+        $categories = Category::withCount(['posts' => function ($query) {
+                $query->where('status', 'published');
+            }])
+            ->having('posts_count', '>', 0)
+            ->orderBy('name')
+            ->get();
+        
+        // Get recent posts for sidebar
+        $recentPosts = Post::where('id', '!=', $post->id)
+            ->where('status', 'published')
+            ->orderBy('published_at', 'desc')
+            ->take(5)
+            ->get();
+        
+        // Get previous and next posts for navigation
+        $previousPost = Post::where('status', 'published')
+            ->where('published_at', '<', $post->published_at)
+            ->orderBy('published_at', 'desc')
+            ->first();
+        
+        $nextPost = Post::where('status', 'published')
+            ->where('published_at', '>', $post->published_at)
+            ->orderBy('published_at', 'asc')
+            ->first();
+        
+        // Get all tags from posts
+        $allTags = Post::where('status', 'published')
+            ->whereNotNull('tags')
+            ->pluck('tags')
+            ->filter()
+            ->map(function ($tagString) {
+                return array_map('trim', explode(',', $tagString));
+            })
+            ->flatten()
+            ->countBy();
+        
+        // Sort tags by count (most used first)
+        $tags = $allTags->sortDesc()->take(15);
+        
+        return view('pages.blog.show', compact(
+            'post', 
+            'relatedPosts', 
+            'categories', 
+            'recentPosts', 
+            'previousPost',
+            'nextPost',
+            'tags'
+        ));
     }
 }

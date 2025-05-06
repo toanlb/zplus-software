@@ -9,33 +9,25 @@ use Illuminate\Support\Facades\Session;
 class LanguageController extends Controller
 {
     /**
-     * Xử lý yêu cầu thay đổi ngôn ngữ
+     * Switch the application language
      *
-     * @param  string  $locale
+     * @param string $locale
      * @return \Illuminate\Http\RedirectResponse
      */
     public function switch($locale)
     {
-        // Thêm log để debug
-        \Log::info('LanguageController::switch called with locale: ' . $locale);
-        
-        // Xác thực locale có nằm trong danh sách ngôn ngữ hỗ trợ hay không
-        $availableLocales = ['en', 'vi'];
-        
-        if (in_array($locale, $availableLocales)) {
-            // Lưu locale vào session
-            Session::put('locale', $locale);
-            // Thiết lập ngôn ngữ hiện tại
-            App::setLocale($locale);
-            
-            // Debug log
-            \Log::info('Language switched to: ' . $locale);
-            \Log::info('Session locale after switch: ' . Session::get('locale'));
-            \Log::info('App locale after switch: ' . App::getLocale());
-            \Log::info('Session ID: ' . Session::getId());
+        // Check if the locale is supported
+        if (!in_array($locale, ['en', 'vi'])) {
+            $locale = 'en'; // Default to English if not supported
         }
         
-        // Chuyển hướng người dùng quay lại trang trước đó
+        // Store the locale in the session
+        Session::put('locale', $locale);
+        
+        // Set the application locale
+        App::setLocale($locale);
+        
+        // Redirect back to the previous page
         return redirect()->back();
     }
 }
