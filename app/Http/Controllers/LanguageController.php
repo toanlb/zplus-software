@@ -16,6 +16,9 @@ class LanguageController extends Controller
      */
     public function switch($locale)
     {
+        // Thêm log để debug
+        \Log::info('LanguageController::switch called with locale: ' . $locale);
+        
         // Xác thực locale có nằm trong danh sách ngôn ngữ hỗ trợ hay không
         $availableLocales = ['en', 'vi'];
         
@@ -28,6 +31,8 @@ class LanguageController extends Controller
             // Debug log
             \Log::info('Language switched to: ' . $locale);
             \Log::info('Session locale after switch: ' . Session::get('locale'));
+            \Log::info('App locale after switch: ' . App::getLocale());
+            \Log::info('Session ID: ' . Session::getId());
         }
         
         // Chuyển hướng người dùng quay lại trang trước đó
