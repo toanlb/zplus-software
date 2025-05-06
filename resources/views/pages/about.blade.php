@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'About Us')
+@section('title', __('about.about_title'))
 
 @section('content')
     <!-- Hero Section -->
     <section class="bg-blue-600 text-white py-16">
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6">About Z+ Software</h1>
-                <p class="text-xl text-blue-100">Learn about our company history, our dedicated team, and the values that drive everything we do.</p>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">{{ __('about.about_company') }}</h1>
+                <p class="text-xl text-blue-100">{{ __('about.about_subtitle') }}</p>
             </div>
         </div>
     </section>
@@ -18,13 +18,13 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col lg:flex-row items-center gap-12">
                 <div class="lg:w-1/2">
-                    <img src="img/office.jpg" alt="Company Office" class="rounded-lg shadow-lg w-full">
+                    <img src="img/office.jpg" alt="{{ __('about.company_office') }}" class="rounded-lg shadow-lg w-full">
                 </div>
                 <div class="lg:w-1/2">
-                    <h2 class="text-3xl font-bold mb-6">Our Story</h2>
-                    <p class="text-gray-600 mb-6">Z+ Software was founded in 2010 with a vision to create innovative software solutions that empower businesses to achieve their full potential. What began as a small team of passionate developers has grown into a leading software company with clients across the globe.</p>
-                    <p class="text-gray-600 mb-6">Over the years, we've evolved our offerings to meet the changing needs of businesses in an increasingly digital world. From custom software development to our suite of ready-to-use products, we've maintained our commitment to quality, innovation, and customer satisfaction.</p>
-                    <p class="text-gray-600">Today, Z+ Software is trusted by businesses of all sizes, from startups to Fortune 500 companies, to deliver software solutions that drive growth and success.</p>
+                    <h2 class="text-3xl font-bold mb-6">{{ __('about.our_story') }}</h2>
+                    <p class="text-gray-600 mb-6">{{ __('about.story_part1') }}</p>
+                    <p class="text-gray-600 mb-6">{{ __('about.story_part2') }}</p>
+                    <p class="text-gray-600">{{ __('about.story_part3') }}</p>
                 </div>
             </div>
         </div>
@@ -35,8 +35,8 @@
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold mb-4">Our Mission & Vision</h2>
-                    <p class="text-gray-600">The guiding principles that shape our work and drive our success.</p>
+                    <h2 class="text-3xl font-bold mb-4">{{ __('about.mission_vision') }}</h2>
+                    <p class="text-gray-600">{{ __('about.mission_vision_subtitle') }}</p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -45,8 +45,8 @@
                         <div class="text-blue-600 mb-4">
                             <i class="fas fa-bullseye text-4xl"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4">Our Mission</h3>
-                        <p class="text-gray-600">To empower businesses with innovative software solutions that solve real-world problems, enhance productivity, and drive sustainable growth.</p>
+                        <h3 class="text-2xl font-bold mb-4">{{ __('about.our_mission') }}</h3>
+                        <p class="text-gray-600">{{ __('about.mission_description') }}</p>
                     </div>
                     
                     <!-- Vision -->
@@ -54,45 +54,45 @@
                         <div class="text-blue-600 mb-4">
                             <i class="fas fa-eye text-4xl"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4">Our Vision</h3>
-                        <p class="text-gray-600">To be the global leader in software solutions, recognized for our innovation, quality, and commitment to helping businesses succeed in the digital era.</p>
+                        <h3 class="text-2xl font-bold mb-4">{{ __('about.our_vision') }}</h3>
+                        <p class="text-gray-600">{{ __('about.vision_description') }}</p>
                     </div>
                 </div>
                 
                 <!-- Values -->
                 <div class="mt-12">
-                    <h3 class="text-2xl font-bold mb-6 text-center">Our Core Values</h3>
+                    <h3 class="text-2xl font-bold mb-6 text-center">{{ __('about.core_values') }}</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div class="bg-white p-6 rounded-lg shadow-md text-center">
                             <div class="text-blue-600 mb-3">
                                 <i class="fas fa-lightbulb text-3xl"></i>
                             </div>
-                            <h4 class="text-lg font-bold mb-2">Innovation</h4>
-                            <p class="text-gray-600">We continually push the boundaries of what's possible in software development.</p>
+                            <h4 class="text-lg font-bold mb-2">{{ __('about.value_innovation') }}</h4>
+                            <p class="text-gray-600">{{ __('about.value_innovation_description') }}</p>
                         </div>
                         
                         <div class="bg-white p-6 rounded-lg shadow-md text-center">
                             <div class="text-blue-600 mb-3">
                                 <i class="fas fa-award text-3xl"></i>
                             </div>
-                            <h4 class="text-lg font-bold mb-2">Excellence</h4>
-                            <p class="text-gray-600">We are committed to delivering the highest quality in every aspect of our work.</p>
+                            <h4 class="text-lg font-bold mb-2">{{ __('about.value_excellence') }}</h4>
+                            <p class="text-gray-600">{{ __('about.value_excellence_description') }}</p>
                         </div>
                         
                         <div class="bg-white p-6 rounded-lg shadow-md text-center">
                             <div class="text-blue-600 mb-3">
                                 <i class="fas fa-users text-3xl"></i>
                             </div>
-                            <h4 class="text-lg font-bold mb-2">Collaboration</h4>
-                            <p class="text-gray-600">We believe in the power of teamwork and partnerships to achieve exceptional results.</p>
+                            <h4 class="text-lg font-bold mb-2">{{ __('about.value_collaboration') }}</h4>
+                            <p class="text-gray-600">{{ __('about.value_collaboration_description') }}</p>
                         </div>
                         
                         <div class="bg-white p-6 rounded-lg shadow-md text-center">
                             <div class="text-blue-600 mb-3">
                                 <i class="fas fa-lock text-3xl"></i>
                             </div>
-                            <h4 class="text-lg font-bold mb-2">Integrity</h4>
-                            <p class="text-gray-600">We conduct our business with honesty, transparency, and strong ethical principles.</p>
+                            <h4 class="text-lg font-bold mb-2">{{ __('about.value_integrity') }}</h4>
+                            <p class="text-gray-600">{{ __('about.value_integrity_description') }}</p>
                         </div>
                     </div>
                 </div>
@@ -104,18 +104,18 @@
     <section class="py-16">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold mb-4">Meet Our Leadership Team</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Our experienced and passionate leadership team drives our innovation and success.</p>
+                <h2 class="text-3xl font-bold mb-4">{{ __('about.leadership_team') }}</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">{{ __('about.leadership_team_subtitle') }}</p>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Team Member 1 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="img/ceo.jpg" alt="CEO" class="w-full h-80 object-cover">
+                    <img src="img/ceo.jpg" alt="{{ __('about.ceo') }}" class="w-full h-80 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-1">John Mitchell</h3>
-                        <p class="text-blue-600 mb-3">CEO & Founder</p>
-                        <p class="text-gray-600 mb-4">With over 20 years of experience in the software industry, John leads our company with vision and strategic direction.</p>
+                        <p class="text-blue-600 mb-3">{{ __('about.ceo_founder') }}</p>
+                        <p class="text-gray-600 mb-4">{{ __('about.ceo_description') }}</p>
                         <div class="flex space-x-3">
                             <a href="#" class="text-gray-400 hover:text-blue-600"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#" class="text-gray-400 hover:text-blue-600"><i class="fab fa-twitter"></i></a>
@@ -126,11 +126,11 @@
                 
                 <!-- Team Member 2 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="img/cto.jpg" alt="CTO" class="w-full h-80 object-cover">
+                    <img src="img/cto.jpg" alt="{{ __('about.cto') }}" class="w-full h-80 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-1">Sarah Johnson</h3>
-                        <p class="text-blue-600 mb-3">Chief Technology Officer</p>
-                        <p class="text-gray-600 mb-4">Sarah oversees our technical strategy and ensures we stay at the forefront of software development innovations.</p>
+                        <p class="text-blue-600 mb-3">{{ __('about.cto_title') }}</p>
+                        <p class="text-gray-600 mb-4">{{ __('about.cto_description') }}</p>
                         <div class="flex space-x-3">
                             <a href="#" class="text-gray-400 hover:text-blue-600"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#" class="text-gray-400 hover:text-blue-600"><i class="fab fa-twitter"></i></a>
@@ -141,11 +141,11 @@
                 
                 <!-- Team Member 3 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="img/coo.jpg" alt="COO" class="w-full h-80 object-cover">
+                    <img src="img/coo.jpg" alt="{{ __('about.coo') }}" class="w-full h-80 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-1">Michael Lee</h3>
-                        <p class="text-blue-600 mb-3">Chief Operating Officer</p>
-                        <p class="text-gray-600 mb-4">Michael ensures our day-to-day operations run smoothly and efficiently, allowing us to deliver exceptional service.</p>
+                        <p class="text-blue-600 mb-3">{{ __('about.coo_title') }}</p>
+                        <p class="text-gray-600 mb-4">{{ __('about.coo_description') }}</p>
                         <div class="flex space-x-3">
                             <a href="#" class="text-gray-400 hover:text-blue-600"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#" class="text-gray-400 hover:text-blue-600"><i class="fab fa-twitter"></i></a>
@@ -156,9 +156,9 @@
             </div>
             
             <div class="text-center mt-12">
-                <p class="text-gray-600 max-w-2xl mx-auto mb-8">Our team extends beyond our leadership to include talented developers, designers, project managers, and support staff who all contribute to our success and the success of our clients.</p>
+                <p class="text-gray-600 max-w-2xl mx-auto mb-8">{{ __('about.team_extended_description') }}</p>
                 <a href="{{ route('contact') }}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-all duration-200">
-                    Join Our Team
+                    {{ __('about.join_team') }}
                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -171,29 +171,29 @@
     <section class="py-16 bg-gray-900 text-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold mb-4">Our Achievements</h2>
-                <p class="text-gray-300 max-w-2xl mx-auto">We're proud of what we've accomplished since our founding.</p>
+                <h2 class="text-3xl font-bold mb-4">{{ __('about.achievements') }}</h2>
+                <p class="text-gray-300 max-w-2xl mx-auto">{{ __('about.achievements_subtitle') }}</p>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
                 <div class="text-center">
                     <div class="text-4xl font-bold text-blue-400 mb-2">13+</div>
-                    <p class="text-gray-300">Years in Business</p>
+                    <p class="text-gray-300">{{ __('about.years_business') }}</p>
                 </div>
                 
                 <div class="text-center">
                     <div class="text-4xl font-bold text-blue-400 mb-2">500+</div>
-                    <p class="text-gray-300">Projects Completed</p>
+                    <p class="text-gray-300">{{ __('about.projects_completed') }}</p>
                 </div>
                 
                 <div class="text-center">
                     <div class="text-4xl font-bold text-blue-400 mb-2">200+</div>
-                    <p class="text-gray-300">Happy Clients</p>
+                    <p class="text-gray-300">{{ __('about.happy_clients') }}</p>
                 </div>
                 
                 <div class="text-center">
                     <div class="text-4xl font-bold text-blue-400 mb-2">50+</div>
-                    <p class="text-gray-300">Team Members</p>
+                    <p class="text-gray-300">{{ __('about.team_members') }}</p>
                 </div>
             </div>
         </div>
@@ -203,16 +203,16 @@
     <section class="py-16">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold mb-4">Our Offices</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">With offices in key locations, we're well-positioned to serve clients around the world.</p>
+                <h2 class="text-3xl font-bold mb-4">{{ __('about.our_offices') }}</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">{{ __('about.offices_subtitle') }}</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Office 1 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="https://via.placeholder.com/400x250?text=Headquarters" alt="Headquarters" class="w-full h-48 object-cover">
+                    <img src="https://via.placeholder.com/400x250?text=Headquarters" alt="{{ __('about.headquarters') }}" class="w-full h-48 object-cover">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Headquarters</h3>
+                        <h3 class="text-xl font-bold mb-2">{{ __('about.headquarters') }}</h3>
                         <div class="flex items-start mb-4">
                             <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-600"></i>
                             <p class="text-gray-600">123 Software Avenue, Tech District, City 10000</p>
@@ -230,9 +230,9 @@
                 
                 <!-- Office 2 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="https://via.placeholder.com/400x250?text=Europe+Office" alt="Europe Office" class="w-full h-48 object-cover">
+                    <img src="https://via.placeholder.com/400x250?text=Europe+Office" alt="{{ __('about.europe_office') }}" class="w-full h-48 object-cover">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Europe Office</h3>
+                        <h3 class="text-xl font-bold mb-2">{{ __('about.europe_office') }}</h3>
                         <div class="flex items-start mb-4">
                             <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-600"></i>
                             <p class="text-gray-600">45 Tech Boulevard, Innovation Quarter, London EC2A 4BX</p>
@@ -250,9 +250,9 @@
                 
                 <!-- Office 3 -->
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="https://via.placeholder.com/400x250?text=Asia+Office" alt="Asia Office" class="w-full h-48 object-cover">
+                    <img src="https://via.placeholder.com/400x250?text=Asia+Office" alt="{{ __('about.asia_office') }}" class="w-full h-48 object-cover">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Asia Office</h3>
+                        <h3 class="text-xl font-bold mb-2">{{ __('about.asia_office') }}</h3>
                         <div class="flex items-start mb-4">
                             <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-600"></i>
                             <p class="text-gray-600">888 Digital Tower, Technology Park, Singapore 138634</p>
@@ -274,11 +274,11 @@
     <!-- Call to Action -->
     <section class="bg-blue-600 py-16 text-white">
         <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-6">Ready to Work With Us?</h2>
-            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">Whether you're looking for a software solution or interested in joining our team, we'd love to hear from you.</p>
+            <h2 class="text-3xl font-bold mb-6">{{ __('about.ready_to_work') }}</h2>
+            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">{{ __('about.ready_to_work_subtitle') }}</p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="{{ route('contact') }}" class="bg-white text-blue-600 hover:bg-gray-100 font-semibold rounded-md px-8 py-3 transition-all duration-200">Contact Us</a>
-                <a href="#" class="bg-transparent border-2 border-white hover:bg-white hover:text-blue-600 text-white font-semibold rounded-md px-8 py-3 transition-all duration-200">View Our Work</a>
+                <a href="{{ route('contact') }}" class="bg-white text-blue-600 hover:bg-gray-100 font-semibold rounded-md px-8 py-3 transition-all duration-200">{{ __('about.contact_us') }}</a>
+                <a href="#" class="bg-transparent border-2 border-white hover:bg-white hover:text-blue-600 text-white font-semibold rounded-md px-8 py-3 transition-all duration-200">{{ __('about.view_work') }}</a>
             </div>
         </div>
     </section>
