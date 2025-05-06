@@ -52,6 +52,9 @@ Route::post('/contact', function (Illuminate\Http\Request $request) {
     return redirect()->route('contact')->with('success', 'Thank you for your message. We will get back to you soon!');
 })->name('contact');
 
+// Language switcher route
+Route::get('/language/{locale}', [App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
+
 // User/Customer Authentication Routes
 Route::get('/login', function () {
     return view('auth.login');

@@ -14,6 +14,12 @@
         <!-- Icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
         
+        <!-- Flag Icons CSS for language switcher -->
+        <link href="https://cdn.jsdelivr.net/npm/flag-icon-css@4.1.7/css/flag-icons.min.css" rel="stylesheet">
+        
+        <!-- Alpine.js for interactive components -->
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+        
         <!-- Tailwind CSS via CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
@@ -67,16 +73,43 @@
                     
                     <!-- Desktop Navigation -->
                     <nav class="hidden lg:flex space-x-8">
-                        <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('home') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">Home</a>
-                        <a href="{{ route('about') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('about') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">About Us</a>
-                        <a href="{{ route('projects.index') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('projects.*') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">Projects</a>
-                        <a href="{{ route('products.index') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('products.*') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">Products</a>
-                        <a href="{{ route('blog.index') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('blog.*') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">Blog</a>
-                        <a href="{{ route('contact') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('contact') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">Contact</a>
+                        <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('home') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">{{ __('general.home') }}</a>
+                        <a href="{{ route('about') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('about') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">{{ __('general.about') }}</a>
+                        <a href="{{ route('projects.index') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('projects.*') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">{{ __('general.projects') }}</a>
+                        <a href="{{ route('products.index') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('products.*') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">{{ __('general.products') }}</a>
+                        <a href="{{ route('blog.index') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('blog.*') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">{{ __('general.blog') }}</a>
+                        <a href="{{ route('contact') }}" class="text-gray-700 hover:text-blue-600 font-medium py-2 transition-all duration-200 {{ request()->routeIs('contact') ? 'text-blue-600 border-b-2 border-blue-600' : '' }}">{{ __('general.contact') }}</a>
                     </nav>
                     
                     <!-- User menu / Login buttons -->
                     <div class="hidden lg:flex items-center space-x-4">
+                        <!-- Language Switcher -->
+                        <div x-data="{ open: false }" @click.away="open = false" class="relative">
+                            <button @click="open = !open" type="button" class="flex items-center px-4 py-2 text-gray-700 hover:text-blue-600 focus:outline-none">
+                                <span>{{ __('general.language') }}</span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            
+                            <div x-show="open" 
+                                 class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50"
+                                 x-transition:enter="transition ease-out duration-100" 
+                                 x-transition:enter-start="transform opacity-0 scale-95" 
+                                 x-transition:enter-end="transform opacity-100 scale-100" 
+                                 x-transition:leave="transition ease-in duration-75" 
+                                 x-transition:leave-start="transform opacity-100 scale-100" 
+                                 x-transition:leave-end="transform opacity-0 scale-95"
+                                 style="display: none;">
+                                <a href="{{ route('language.switch', 'en') }}" class="flex items-center px-4 py-2 text-sm {{ app()->getLocale() == 'en' ? 'bg-gray-100 text-blue-600 font-medium' : 'text-gray-700 hover:bg-gray-100' }}">
+                                    <span class="fi fi-gb mr-2"></span> {{ __('general.english') }}
+                                </a>
+                                <a href="{{ route('language.switch', 'vi') }}" class="flex items-center px-4 py-2 text-sm {{ app()->getLocale() == 'vi' ? 'bg-gray-100 text-blue-600 font-medium' : 'text-gray-700 hover:bg-gray-100' }}">
+                                    <span class="fi fi-vn mr-2"></span> {{ __('general.vietnamese') }}
+                                </a>
+                            </div>
+                        </div>
+                        
                         <!-- Shopping Cart -->
                         <div class="relative cart-dropdown">
                             <button type="button" class="cart-toggle flex items-center px-3 py-2 text-gray-700 hover:text-blue-600 relative">
@@ -96,23 +129,23 @@
                                     <i class="fas fa-chevron-down text-xs"></i>
                                 </button>
                                 <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
-                                    <a href="{{ route('customer.dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dashboard</a>
-                                    <a href="{{ route('customer.profile') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Profile</a>
-                                    <a href="{{ route('customer.orders') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Orders</a>
-                                    <a href="{{ route('customer.downloads') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Downloads</a>
+                                    <a href="{{ route('customer.dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">{{ __('general.dashboard') }}</a>
+                                    <a href="{{ route('customer.profile') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">{{ __('general.profile') }}</a>
+                                    <a href="{{ route('customer.orders') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">{{ __('user.orders_title') }}</a>
+                                    <a href="{{ route('customer.downloads') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">{{ __('general.download') }}</a>
                                     <div class="border-t border-gray-200 my-1"></div>
                                     <form method="POST" action="{{ route('logout') }}" class="block">
                                         @csrf
                                         <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                            Logout
+                                            {{ __('general.logout') }}
                                         </button>
                                     </form>
                                 </div>
                             </div>
                         @else
-                            <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600">Log in</a>
+                            <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600">{{ __('general.login') }}</a>
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-all duration-200">Register</a>
+                                <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-all duration-200">{{ __('general.register') }}</a>
                             @endif
                         @endauth
                     </div>
@@ -129,39 +162,54 @@
                 
                 <!-- Mobile Menu -->
                 <div class="mobile-menu hidden lg:hidden mt-4 pb-2">
-                    <a href="{{ route('home') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('home') ? 'text-blue-600 font-medium' : '' }}">Home</a>
-                    <a href="{{ route('about') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('about') ? 'text-blue-600 font-medium' : '' }}">About Us</a>
-                    <a href="{{ route('projects.index') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('projects.*') ? 'text-blue-600 font-medium' : '' }}">Projects</a>
-                    <a href="{{ route('products.index') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('products.*') ? 'text-blue-600 font-medium' : '' }}">Products</a>
-                    <a href="{{ route('blog.index') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('blog.*') ? 'text-blue-600 font-medium' : '' }}">Blog</a>
-                    <a href="{{ route('contact') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('contact') ? 'text-blue-600 font-medium' : '' }}">Contact</a>
+                    <a href="{{ route('home') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('home') ? 'text-blue-600 font-medium' : '' }}">{{ __('general.home') }}</a>
+                    <a href="{{ route('about') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('about') ? 'text-blue-600 font-medium' : '' }}">{{ __('general.about') }}</a>
+                    <a href="{{ route('projects.index') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('projects.*') ? 'text-blue-600 font-medium' : '' }}">{{ __('general.projects') }}</a>
+                    <a href="{{ route('products.index') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('products.*') ? 'text-blue-600 font-medium' : '' }}">{{ __('general.products') }}</a>
+                    <a href="{{ route('blog.index') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('blog.*') ? 'text-blue-600 font-medium' : '' }}">{{ __('general.blog') }}</a>
+                    <a href="{{ route('contact') }}" class="block py-2 text-gray-700 hover:text-blue-600 {{ request()->routeIs('contact') ? 'text-blue-600 font-medium' : '' }}">{{ __('general.contact') }}</a>
                     
-                    <div class="mt-4 pt-4 border-t border-gray-200">
+                    <!-- Mobile Language Switcher -->
+                    <div class="border-t border-gray-200 mt-2 pt-2">
+                        <div class="flex items-center space-x-4 py-2">
+                            <span class="text-gray-700">{{ __('general.language') }}:</span>
+                            <a href="{{ route('language.switch', 'en') }}" class="flex items-center space-x-1 {{ app()->getLocale() == 'en' ? 'font-medium text-blue-600' : 'text-gray-700' }}">
+                                <span class="fi fi-gb"></span>
+                                <span>{{ __('general.english') }}</span>
+                            </a>
+                            <a href="{{ route('language.switch', 'vi') }}" class="flex items-center space-x-1 {{ app()->getLocale() == 'vi' ? 'font-medium text-blue-600' : 'text-gray-700' }}">
+                                <span class="fi fi-vn"></span>
+                                <span>{{ __('general.vietnamese') }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 mt-2 pt-2">
                         <!-- Mobile cart link -->
                         <a href="{{ route('cart.index') }}" class="flex items-center py-2 text-gray-700 hover:text-blue-600">
                             <i class="fas fa-shopping-cart mr-2"></i> 
-                            <span>Shopping Cart</span>
+                            <span>{{ __('general.add_to_cart') }}</span>
                             <span class="cart-counter ml-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center {{ App\Models\CartItem::where('session_id', Session::get('cart_id', ''))->sum('quantity') > 0 ? '' : 'hidden' }}">
                                 {{ App\Models\CartItem::where('session_id', Session::get('cart_id', ''))->sum('quantity') }}
                             </span>
                         </a>
                         
                         @auth
-                            <a href="{{ route('customer.dashboard') }}" class="block py-2 text-gray-700 hover:text-blue-600">Dashboard</a>
-                            <a href="{{ route('customer.profile') }}" class="block py-2 text-gray-700 hover:text-blue-600">My Profile</a>
-                            <a href="{{ route('customer.orders') }}" class="block py-2 text-gray-700 hover:text-blue-600">Orders</a>
-                            <a href="{{ route('customer.downloads') }}" class="block py-2 text-gray-700 hover:text-blue-600">Downloads</a>
+                            <a href="{{ route('customer.dashboard') }}" class="block py-2 text-gray-700 hover:text-blue-600">{{ __('general.dashboard') }}</a>
+                            <a href="{{ route('customer.profile') }}" class="block py-2 text-gray-700 hover:text-blue-600">{{ __('general.profile') }}</a>
+                            <a href="{{ route('customer.orders') }}" class="block py-2 text-gray-700 hover:text-blue-600">{{ __('user.orders_title') }}</a>
+                            <a href="{{ route('customer.downloads') }}" class="block py-2 text-gray-700 hover:text-blue-600">{{ __('general.download') }}</a>
                             
                             <form method="POST" action="{{ route('logout') }}" class="block pt-2">
                                 @csrf
                                 <button type="submit" class="w-full text-left py-2 text-gray-700 hover:text-blue-600">
-                                    Logout
+                                    {{ __('general.logout') }}
                                 </button>
                             </form>
                         @else
-                            <a href="{{ route('login') }}" class="block py-2 text-gray-700 hover:text-blue-600">Log in</a>
+                            <a href="{{ route('login') }}" class="block py-2 text-gray-700 hover:text-blue-600">{{ __('general.login') }}</a>
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="block mt-2 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-all duration-200 text-center">Register</a>
+                                <a href="{{ route('register') }}" class="block mt-2 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-all duration-200 text-center">{{ __('general.register') }}</a>
                             @endif
                         @endauth
                     </div>
@@ -192,22 +240,22 @@
                     
                     <!-- Quick Links -->
                     <div>
-                        <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                        <h4 class="text-lg font-semibold mb-4">{{ __('general.menu') }}</h4>
                         <ul class="space-y-2">
-                            <li><a href="{{ route('home') }}" class="text-gray-300 hover:text-white">Home</a></li>
-                            <li><a href="{{ route('about') }}" class="text-gray-300 hover:text-white">About Us</a></li>
-                            <li><a href="{{ route('projects.index') }}" class="text-gray-300 hover:text-white">Projects</a></li>
-                            <li><a href="{{ route('products.index') }}" class="text-gray-300 hover:text-white">Products</a></li>
-                            <li><a href="{{ route('blog.index') }}" class="text-gray-300 hover:text-white">Blog</a></li>
-                            <li><a href="{{ route('contact') }}" class="text-gray-300 hover:text-white">Contact</a></li>
+                            <li><a href="{{ route('home') }}" class="text-gray-300 hover:text-white">{{ __('general.home') }}</a></li>
+                            <li><a href="{{ route('about') }}" class="text-gray-300 hover:text-white">{{ __('general.about') }}</a></li>
+                            <li><a href="{{ route('projects.index') }}" class="text-gray-300 hover:text-white">{{ __('general.projects') }}</a></li>
+                            <li><a href="{{ route('products.index') }}" class="text-gray-300 hover:text-white">{{ __('general.products') }}</a></li>
+                            <li><a href="{{ route('blog.index') }}" class="text-gray-300 hover:text-white">{{ __('general.blog') }}</a></li>
+                            <li><a href="{{ route('contact') }}" class="text-gray-300 hover:text-white">{{ __('general.contact') }}</a></li>
                         </ul>
                     </div>
                     
                     <!-- Products -->
                     <div>
-                        <h4 class="text-lg font-semibold mb-4">Our Products</h4>
+                        <h4 class="text-lg font-semibold mb-4">{{ __('home.products_title') }}</h4>
                         <ul class="space-y-2">
-                            <li><a href="{{ route('products.index') }}" class="text-gray-300 hover:text-white">All Products</a></li>
+                            <li><a href="{{ route('products.index') }}" class="text-gray-300 hover:text-white">{{ __('general.view_all') }}</a></li>
                             @foreach($featuredCategories ?? [] as $category)
                                 <li><a href="{{ route('products.category', $category->slug) }}" class="text-gray-300 hover:text-white">{{ $category->name }}</a></li>
                             @endforeach
@@ -216,7 +264,7 @@
                     
                     <!-- Contact Info -->
                     <div>
-                        <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
+                        <h4 class="text-lg font-semibold mb-4">{{ __('general.contact') }}</h4>
                         <ul class="space-y-2">
                             <li class="flex items-start">
                                 <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-400"></i>
@@ -235,7 +283,7 @@
                 </div>
                 
                 <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                    <p>&copy; {{ date('Y') }} Z+ Software Company. All rights reserved.</p>
+                    <p>&copy; {{ date('Y') }} Z+ Software Company. {{ __('general.all_rights_reserved') }}.</p>
                 </div>
             </div>
         </footer>
